@@ -1,7 +1,7 @@
 #include "Sten.h"
 Sten::Sten()
 {
-    m_Speed = 800;
+    m_Speed = 250;
 
     // Связываем текстуру и спрайт
     Image image;
@@ -15,7 +15,7 @@ Sten::Sten()
     m_Position.y = 250;
 }
 
-Sprite Sten::getSprite()
+Sprite Sten::getSprite()const
 {
     return m_Sprite;
 }
@@ -23,25 +23,25 @@ Sprite Sten::getSprite()
 void Sten::moveLeft()
 {
     m_LeftPressed = true;
-    m_Sprite.setTextureRect(IntRect(48, 48, 60, 100));
+    m_Sprite.setTextureRect(IntRect(0, 140, 160, 100));
 }
 
 void Sten::moveRight()
 {
     m_RightPressed = true;
-    m_Sprite.setTextureRect(IntRect(96, 220, 96, 96));
+    m_Sprite.setTextureRect(IntRect(0, 260, 160, 100));
 }
 
 void Sten::moveTop()
 {
     m_TopPressed = true;
-    m_Sprite.setTextureRect(IntRect(180, 96, 96, 96));
+    m_Sprite.setTextureRect(IntRect(0, 360, 150, 130));
 }
 
 void Sten::moveDown()
 {
     m_DownPressed = true;
-    m_Sprite.setTextureRect(IntRect(50, 50, 80, 100));
+    m_Sprite.setTextureRect(IntRect(0, 0, 150, 130));
 }
 
 void Sten::stopLeft()

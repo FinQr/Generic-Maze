@@ -24,12 +24,18 @@
     <ClCompile Include="Generic game.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Create labirint.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sten.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Generic game.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Create labirint.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

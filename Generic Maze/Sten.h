@@ -18,10 +18,10 @@ private:
     bool m_TopPressed = false;
     bool m_DownPressed = false;
     // Скорость Боба в пикселях в секунду
-    int m_Speed = 400;
+    int m_Speed = 250;
 public:
     Sten();
-    Sprite getSprite();
+    Sprite getSprite()const;
 
     // Для движения Боба
     void moveLeft();
