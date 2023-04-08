@@ -6,6 +6,7 @@ using namespace sf;
 
 class Generic {
 public:
+	sf::View view;
 	Generic();
     void start();
 	void createMap(const int Height_map, const int Width_map);
@@ -21,12 +22,17 @@ private:
     // έκηεμολÿπ Stena
     Sten m_Sten;
 
+	void getPositionHero(sf::Vector2f m_Position)
+	{
+		view.setCenter(m_Position);
+	}
     void input();
     void update(float dtAsSeconds);
     void draw();
-    void React();
+	void Colision();
+	float h = 0.5;
 
-	static const int Height_map = 23;
-	static const int Width_map = 36;
-	sf::String TeileMap[Height_map][Width_map] = {};
+	static const int Height_map = 25;
+	static const int Width_map = 25;
+	int TeileMap[Width_map][Height_map] = {};
 };

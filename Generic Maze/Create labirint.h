@@ -6,8 +6,8 @@ public:
 	Labirint();
 	sf::String getTeilMap(const int Height_map, const int Width_map);
 	sf::Sprite createMap(const int Height_map, const int Width_map);
-	static const int Height_map = 23;
-	static const int Width_map = 36;
+	static const int Height_map = 25;
+	static const int Width_map = 25;
 private:
 	
 
