@@ -135,12 +135,14 @@ sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Create labirint.cpp" />
+    <ClCompile Include="GameMenu.cpp" />
     <ClCompile Include="Generic game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sten.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Create labirint.h" />
+    <ClInclude Include="GameMenu.h" />
     <ClInclude Include="Generic game.h" />
     <ClInclude Include="Sten.h" />
   </ItemGroup>
