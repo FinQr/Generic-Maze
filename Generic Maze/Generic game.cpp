@@ -4,9 +4,9 @@
 //#include "cstdlib"
 //#include "ctime"
 
-Generic::Generic() : m_Sten(), m_Labirint(m_Sten, m_Window)
+Generic::Generic() : m_Sten(), levelUp(false)
 {
-    view.reset(sf::FloatRect(0, 0, 200, 150));
+    view.reset(sf::FloatRect(0, 0, 800, 600));
 
     resolution.x = VideoMode::getDesktopMode().width;
     resolution.y = VideoMode::getDesktopMode().height;
@@ -22,25 +22,13 @@ Generic::Generic() : m_Sten(), m_Labirint(m_Sten, m_Window)
     
     m_Window.create(VideoMode(800, 600),
                     "Maze generation",
-                    Style::Default);
-    //Image m_image;
-    //m_image.loadFromFile("blok.png");//загружаем файл для карты
-    //m_BackgroundTexture.loadFromImage(m_image);//заряжаем текстуру картинкой
-    //m_BackgroundSprite.setTexture(m_BackgroundTexture);
-    //m_Window.setFramerateLimit(256);
-
-    //m_BackgroundTexture.loadFromFile("background.jpg");
-
-    // Связываем спрайт и текстуру
-    //m_BackgroundSprite.setTexture(m_BackgroundTexture);
-
+                    Style::Close);
 }
 
-void Generic::start()
+void Generic::start(int seconds, Labirint m_Labirint)
 {
     // Расчет времени
     
-    int seconds = 20;
     Clock clock;
     Clock GameTime;
     while (m_Window.isOpen())
@@ -49,8 +37,6 @@ void Generic::start()
         Time dt = clock.restart();
         //float time = dt.asSeconds();
         float time = dt.asSeconds();
-        //хранит текущий кадр
-        // Обрабатываем нажатие Escape
         std::ostringstream Timer;
         Timer << (seconds - GameTime.getElapsedTime().asSeconds());
         if (seconds - GameTime.getElapsedTime().asSeconds() <= 0 ) {
@@ -58,11 +44,40 @@ void Generic::start()
         }
         text.setString(Timer.str());
         text.setPosition(view.getCenter().x + 40, view.getCenter().y - 70);
-        input(time);
+        input(time, m_Labirint);
         update(time);
-        draw();
+        draw(m_Labirint);
     }
 }
+
+void Generic::Win()
+{
+    Clock win;
+    Font font;
+    Text text;
+    font.loadFromFile("font//troika.otf");
+    text.setFont(font);
+    text.setOutlineColor(Color(237, 147, 0));
+    text.setCharacterSize(25);
+    text.setFillColor(Color::Red);
+
+    while (true) {
+        //m_Window.setView(view);
+        std::ostringstream TextWin;
+        TextWin << "YOU WIN!!!";
+        text.setString(TextWin.str());
+        text.setPosition(view.getCenter().x-50, view.getCenter().y + 30);
+        if (5 - win.getElapsedTime().asSeconds() <= 0) {
+            break;
+        }
+        m_Window.clear(Color::Black);
+        m_Window.draw(text);
+        m_Window.display();
+    }
+    m_Window.close();
+}
+
+
 
 //void Generic::createMap(const int Height_map, const int Width_map)
 //{
@@ -227,7 +242,15 @@ void Generic::start()
 //    }
 //}
 
-void Generic::input(float time)
+//Создание уровня с размерами, таймером и указанием на последний уровень
+void Generic::Level(int Height_map, int Width_map, int secondGame, bool end)
+{
+    Labirint lab1(Height_map, Width_map, m_Sten, m_Window);
+    setEnd(end);
+    start(secondGame, lab1);
+}
+
+void Generic::input(float time, Labirint m_Labirint)
 {
     // Обрабатываем нажатие Escape
     while (m_Window.pollEvent(event))
@@ -276,7 +299,7 @@ void Generic::input(float time)
     {
         m_Sten.stopDown();
     }
-    m_Labirint.Colision(m_Sten);
+    m_Labirint.Colision(m_Sten); // Коллизия
 }
 
 void Generic::update(float h)
@@ -287,23 +310,50 @@ void Generic::update(float h)
     m_Sten.update(h);
 }
 
-void Generic::draw()
+void Generic::draw(Labirint m_Labirint)
 {
     m_Window.setView(view);
 
     m_Window.clear(Color::White);
     // Отрисовываем карту
     
-    m_Labirint.createMap(m_Window, m_Sten);
+    m_Labirint.outputMap( m_Window, m_Sten);
+
+    //Если последний уровень, то вывод экрана победы
+    if (m_Labirint.setUpPortal(m_Window, m_Sten) && end) {
+        Win();
+    }
+    //Если не последний, то промежуточный экран
     if (m_Labirint.setUpPortal(m_Window, m_Sten)) {
+        levelUp = true;
+        Clock perechod;
+        Font font;
+        Text text;
+        font.loadFromFile("font//troika.otf");
+        text.setFont(font);
+        text.setOutlineColor(Color(237, 147, 0));
+        text.setCharacterSize(30);
+        text.setFillColor(Color(237, 147, 0));
+        while (true) {
+            //m_Window.setView(view);
+            std::ostringstream Timer;
+            Timer << "Never give up!";
+            text.setString(Timer.str());
+            text.setPosition(view.getCenter().x-100, view.getCenter().y - 10);
+            if (2 - perechod.getElapsedTime().asSeconds() <= 0) {
+                break;
+            }
+            m_Window.clear(Color::Black);
+            m_Window.draw(text);
+            m_Window.display();
+        }
         m_Window.close();
     }
     else {
         m_Labirint.setUpPortal(m_Window, m_Sten);
     }
-    //m_Window.draw(m_Labirint.GetSprite());
-    // И Stena
 
+    //Вывод на экран машины и времени
     m_Window.draw(m_Sten.getSprite());
     m_Window.draw(text);
 

@@ -24,12 +24,11 @@ public:
     Sten();
     Sprite getSprite()const;
     sf::Vector2f getPositon()const { return m_Position; };
-    int getPosx()const { return m_Position.x; };
-    int getPosy()const { return m_Position.y; };
-    void setPositon(int x, int y) {
-        m_Position.x = x; m_Position.y = y;
-        m_Sprite.setPosition(m_Position);
-    };
+    int getPosX()const { return m_Position.x; };
+    int getPosY()const { return m_Position.y; };
+
+    void setPosition(int x, int y);
+
     sf::View getView()const{ return view; };
     void update(float elapsedtime);
 
@@ -52,5 +51,5 @@ public:
     void stopTop();
     void stopDown();
 
-    void getPositionHero(Vector2f positon);
+    void setPositionCenterHero(Vector2f positon);
 };

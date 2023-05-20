@@ -1,18 +1,21 @@
 #include "Create labirint.h"
 
-Labirint::Labirint(Sten& cp_Sten, sf::RenderWindow &window)
+Labirint::Labirint(const int Height, const int Width,
+    Sten& cp_Sten, sf::RenderWindow &window)
 {
+    setHeight(Height);
+    setWidth(Width);
     sf::Image cl_image;
     cl_image.loadFromFile("blok.png");//загружаем файл для карты
     cl_Texture.loadFromImage(cl_image);//заряжаем текстуру картинкой
-    cl_Labirint.setTexture(cl_Texture);
+    sprite_Labirint.setTexture(cl_Texture);
 
     sf::Image wall;
     wall.loadFromFile("wall.png");
     walltexture.loadFromImage(wall);
     Wall.setTexture(walltexture);
 
-    getTeilMap();
+    createTeilMap();
     
     sf::RectangleShape rectshape;
     for (int i = 0; i < Height_map; ++i) {
@@ -33,49 +36,46 @@ Labirint::Labirint(Sten& cp_Sten, sf::RenderWindow &window)
     //setUpPortal(window);
 }
 
-void Labirint::createMap(sf::RenderWindow &window, Sten& m_Sten)
+void Labirint::outputMap(sf::RenderWindow &window, Sten& m_Sten)
 {
     sf::Vector2f center = window.getView().getCenter();
     sf::Vector2f size = window.getView().getSize();
 	for (int i = (center.y - size.y / 2) / 32; i <= (center.y + size.y / 2) / 32; ++i) {
 		for (int j = (center.x - size.x / 2) / 32; j <= (center.x + size.x / 2) / 32; ++j) {
-			if (TeileMap[j][i] == 0) {
-				Wall.setTextureRect(sf::IntRect(0, 0, 32, 32));
-                Wall.setPosition(j * 32, i * 32);
-                window.draw(Wall);
-			}
-			if (TeileMap[j][i] == 1) {
-				cl_Labirint.setTextureRect(sf::IntRect(0, 0, 32, 32));
-                cl_Labirint.setPosition(j * 32, i * 32);
-                window.draw(cl_Labirint);
-			}
+            if (j >= 0 && j <= (Height_map-1) && i >= 0 && i <= (Width_map-1)) {
+                if (TeileMap[j][i] == 0) {
+                    Wall.setTextureRect(sf::IntRect(0, 0, 32, 32));
+                    Wall.setPosition(j * 32, i * 32);
+                    window.draw(Wall);
+                }
+                if (TeileMap[j][i] == 1) {
+                    sprite_Labirint.setTextureRect(sf::IntRect(0, 0, 32, 32));
+                    sprite_Labirint.setPosition(j * 32, i * 32);
+                    window.draw(sprite_Labirint);
+                }
+            }
 		}
 	}
 }
 
-void Labirint::getTeilMap()
+void Labirint::createTeilMap()
 {
-    /*int** TeileMap = new int* [Width_map];
-    for (int i = 0; i < Width_map; ++i) {
-        TeileMap[i] = new int[Height_map];
-        for (int j = 0; j < Height_map; ++j) {
-            TeileMap[j][i] = 0;
+    std::vector<int> temp;
+    for (int i = 0; i < Height_map;++i) {
+        for (int j = 0; j < Width_map;++j) {
+            temp.push_back(0);
         }
-    }*/
-    for (int i = 0; i < Height_map; ++i) {
-        for (int j = 0; j < Width_map; ++j) {
-            TeileMap[j][i] = 0;
-        }
+        TeileMap.push_back(temp);
     }
-    
+
     struct Point
     {
         int arr[2] = {};
     };
 
     srand(time(0));
-    int x = Randint(0, (Width_map - 1) / 2) * 2 + 1;
-    int y = Randint(0, (Height_map - 1) / 2) * 2 - 1;
+    int x = Randint(1, (Width_map - 2) / 2) * 2 + 1;
+    int y = Randint(1, (Height_map - 2) / 2) * 2 + 1;
     TeileMap[x][y] = 1;
     std::vector <Point> chek;
     Point tochka;
@@ -103,7 +103,7 @@ void Labirint::getTeilMap()
             index = Randint(0, chek.size() - 1);
         int x = chek[index].arr[0];
         int y = chek[index].arr[1];
-        if (x != 0 && y != 0 && x != Width_map - 1 && y != Height_map - 1) {
+        if (x > 0 && y > 0 && x != Width_map - 1 && y != Height_map - 1) {
             TeileMap[x][y] = 1;
         }
         auto beg = chek.cbegin();
@@ -147,7 +147,7 @@ void Labirint::getTeilMap()
                 auto beg = Dir.cbegin();
                 Dir.erase(beg + dir_index);
             }
-            if (chek.size() > 3) {
+            if (chek.size() > 4) {
                 chek.pop_back();
             }
         }
@@ -170,7 +170,6 @@ void Labirint::getTeilMap()
             chek.push_back(tochka);
         }
     }
-
     
     //for (int m = 0; m < 4;++m) {
     //    std::vector <Point> dead_ends;
@@ -209,7 +208,7 @@ void Labirint::getTeilMap()
 void Labirint::setUpHero(Sten& cp_Sten)
 {
     int count = Tropalab.size()/3*2;
-    cp_Sten.setPositon(Tropalab[count].getPosition().x, Tropalab[count].getPosition().y);
+    cp_Sten.setPosition(Tropalab[count].getPosition().x, Tropalab[count].getPosition().y);
 }
 
 bool Labirint::setUpPortal(sf::RenderWindow &window, Sten &cp_Sten)
@@ -240,36 +239,69 @@ int Labirint::Randint(int min, int max)
 
 void Labirint::Colision(Sten& cp_Sten)
 {
-    sf::FloatRect box = cp_Sten.getSprite().getGlobalBounds();
-    int x = cp_Sten.getPosx();
-    int y = cp_Sten.getPosy();
-    int col = Wallab.size();
-    for (int i = 0; i < col; i++) {
-        if (box.intersects(Wallab[i].getGlobalBounds())) {
-            if (cp_Sten.getDown() && Wallab[i].getPosition().y+2 > y)//если мы шли вниз,
-            {
-                //cp_Sten.stopDown();
-                cp_Sten.setPositon(x, y - 1);//то стопорим координату игрек персонажа. сначала получаем координату нашего квадратика на карте(стены) и затем вычитаем из высоты спрайта персонажа.
+    sf::FloatRect playerBounds = cp_Sten.getSprite().getGlobalBounds();
+    int playerX = cp_Sten.getPosX();
+    int playerY = cp_Sten.getPosY();
+
+    for (const auto& wall : Wallab) {
+        sf::FloatRect wallBounds = wall.getGlobalBounds();
+
+        if (playerBounds.intersects(wallBounds)) {
+            sf::FloatRect intersection;
+            if (playerBounds.intersects(wallBounds, intersection)) {
+                if (intersection.width < intersection.height) {
+                    if (playerX < wall.getPosition().x) {
+                        cp_Sten.stopRight();
+                    }
+                    else {
+                        cp_Sten.stopLeft();
+                    }
+                }
+                else {
+                    if (playerY < wall.getPosition().y) {
+                        cp_Sten.stopDown();
+                    }
+                    else {
+                        cp_Sten.stopTop();
+                    }
+                }
             }
-            if (cp_Sten.getTop() && Wallab[i].getPosition().y+5 < y)
-            {
-                //cp_Sten.stopTop();
-                cp_Sten.setPositon(x, y + 2);//аналогично с ходьбой вверх. dy<0, значит мы идем вверх (вспоминаем координаты паинта)
-            }
-            if (cp_Sten.getRight() && Wallab[i].getPosition().x+5 > x)
-            {
-                //cp_Sten.stopRight();
-                cp_Sten.setPositon(x - 1, y);//если идем вправо, то координата Х равна стена (символ 0) минус ширина персонажа
-            }
-            if (cp_Sten.getLeft() && Wallab[i].getPosition().x+5 < x)
-            {
-                //cp_Sten.stopLeft();
-                cp_Sten.setPositon(x + 2, y);//аналогично идем влево
-            }
-            break;
         }
     }
 }
+
+//void Labirint::Colision(Sten& cp_Sten)
+//{
+//    sf::FloatRect box = cp_Sten.getSprite().getGlobalBounds();
+//    int x = cp_Sten.getPosx();
+//    int y = cp_Sten.getPosy();
+//    int col = Wallab.size();
+//    for (int i = 0; i < col; i++) {
+//        if (box.intersects(Wallab[i].getGlobalBounds())) {
+//            if (cp_Sten.getDown() && Wallab[i].getPosition().y > y)//если мы шли вниз,
+//            {
+//                cp_Sten.stopDown();
+//                //cp_Sten.setPositon(x, y - 1);//то стопорим координату игрек персонажа. сначала получаем координату нашего квадратика на карте(стены) и затем вычитаем из высоты спрайта персонажа.
+//            }
+//            if (cp_Sten.getTop() && Wallab[i].getPosition().y < y)
+//            {
+//                cp_Sten.stopTop();
+//                //cp_Sten.setPositon(x, y + 2);//аналогично с ходьбой вверх. dy<0, значит мы идем вверх (вспоминаем координаты паинта)
+//            }
+//            if (cp_Sten.getRight() && Wallab[i].getPosition().x > x)
+//            {
+//                cp_Sten.stopRight();
+//                //cp_Sten.setPositon(x - 1, y);//если идем вправо, то координата Х равна стена (символ 0) минус ширина персонажа
+//            }
+//            if (cp_Sten.getLeft() && Wallab[i].getPosition().x < x)
+//            {
+//                cp_Sten.stopLeft();
+//                //cp_Sten.setPositon(x + 2, y);//аналогично идем влево
+//            }
+//            //break;
+//        }
+//    }
+//}
 
 //sf::Sprite Labirint::createMap(const int Height_map, const int Width_map)
 //{

@@ -66,6 +66,12 @@ void Sten::stopDown()
     m_DownPressed = false;
 }
 
+void Sten::setPosition(int x, int y)
+{
+    m_Position.x = x; m_Position.y = y;
+    m_Sprite.setPosition(m_Position);
+}
+
 void Sten::update(float elapsedTime)
 {
     if (m_RightPressed)
@@ -91,7 +97,7 @@ void Sten::update(float elapsedTime)
     m_Sprite.setPosition(m_Position);
 }
 
-void Sten::getPositionHero(sf::Vector2f m_Position)
+void Sten::setPositionCenterHero(sf::Vector2f m_Position)
 {
     view.setCenter(m_Position);
 }

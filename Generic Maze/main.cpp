@@ -19,8 +19,6 @@ void InitText(Text& mtext, float xpos, float ypos, const String& str, TextFormat
 // Игровой процесс
 void GamеStart();
 
-// Настройки игры
-
 // Описание игры
 void About_Game();
 
@@ -29,7 +27,7 @@ void About_Game();
 int main()
 {
     // Создаём окно windows
-    RenderWindow window(VideoMode::getDesktopMode(), L"Моя игра", Style::Default);
+    RenderWindow window(VideoMode::getDesktopMode(), L"Menu", Style::Default);
 
 
     //window.setMouseCursorVisible(false); //отключаем видимость курсора
@@ -126,7 +124,6 @@ int main()
                 window.close();
         }
 
-
         // Плавное осветление экрана меню
         if (alpha > 0)
         {
@@ -160,8 +157,25 @@ void InitText(Text& mtext, float xpos, float ypos, const String& str, TextFormat
 // Игровой процесс
 void GamеStart()
 {
-    Generic game;
-    game.start();
+    Generic level1;
+    //Generic* p = nullptr;
+    level1.Level(25, 25, 20, 0);
+    if (level1.getLevelUp()) {
+        Generic level2;
+        //p = &level2;
+        level2.Level(35, 35, 30, 0);
+        if (level2.getLevelUp()) {
+            Generic level3;
+            level3.Level(45, 45, 40, 1);
+        }
+    }
+    /*if (p->getLevelUp()) {
+        Generic level3;
+        level3.Level(45, 45, 40);
+        if (level3.getLevelUp()) {
+            level3.Win();
+        }
+    }*/
 }
 
 // Описание игры
@@ -171,7 +185,7 @@ void About_Game()
 
     RectangleShape background_ab(Vector2f(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height));
     Texture texture_ab;
-    if (!texture_ab.loadFromFile("image/menu2.jpg")) exit(3);
+    if (!texture_ab.loadFromFile("image/fmenu.jpg")) exit(3);
     background_ab.setTexture(&texture_ab);
 
     // Шрифт для названия экрана
