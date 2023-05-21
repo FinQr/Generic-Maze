@@ -37,12 +37,7 @@ namespace game {
 
 		void AlignMenu(int posx);       // Выравнивание положения меню (по левому по правому по центру)
 
-		int getSelectedMenuNumber() const     // Возвращает номер выбраного элемента
-		{
-			return mainMenuSelected;
-		}
-
-
+		int getSelectedMenuNumber() const{ return mainMenuSelected;}
 	};
 
 }

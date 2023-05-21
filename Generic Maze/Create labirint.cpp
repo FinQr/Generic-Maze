@@ -33,7 +33,6 @@ Labirint::Labirint(const int Height, const int Width,
         }
     }
     setUpHero(cp_Sten);
-    //setUpPortal(window);
 }
 
 void Labirint::outputMap(sf::RenderWindow &window, Sten& m_Sten)
@@ -120,7 +119,6 @@ void Labirint::createTeilMap()
             case 0:
                 if (y - 2 >= 0 && TeileMap[x][y - 2] == 1) {
                     TeileMap[x][y - 1] = 1;
-                    //auto iter = std::find(chek.begin(), chek.end(), );
                     Dir.clear();
                 }
                 break;
@@ -207,7 +205,7 @@ void Labirint::createTeilMap()
 
 void Labirint::setUpHero(Sten& cp_Sten)
 {
-    int count = Tropalab.size()/3*2;
+    int count = Tropalab.size()/4;
     cp_Sten.setPosition(Tropalab[count].getPosition().x, Tropalab[count].getPosition().y);
 }
 
@@ -216,10 +214,10 @@ bool Labirint::setUpPortal(sf::RenderWindow &window, Sten &cp_Sten)
     sf::Sprite portalsprite;
     sf::Texture portaltexture;
     
-    sf::Image pr;
+    sf::Image image;
 
-    pr.loadFromFile("portal.png");//загружаем файл для карты
-    portaltexture.loadFromImage(pr);//заряжаем текстуру картинкой
+    image.loadFromFile("portal.png");//загружаем файл для карты
+    portaltexture.loadFromImage(image);//заряжаем текстуру картинкой
     portalsprite.setTexture(portaltexture);
 
     portalsprite.setPosition(Tropalab[0].getPosition().x, Tropalab[0].getPosition().y);
@@ -303,23 +301,4 @@ void Labirint::Colision(Sten& cp_Sten)
 //    }
 //}
 
-//sf::Sprite Labirint::createMap(const int Height_map, const int Width_map)
-//{
-//	
-//	for (int i = 0; i < Height_map; ++i) {
-//		for (int j = 0; j < Width_map; ++j) {
-//			s_window.clear();
-//			if (TileMap[i][j] == '1') {
-//				s_map.setTextureRect(IntRect(0, 0, 32, 32));
-//			}
-//			if (TileMap[i][j] == '0') {
-//				s_map.setTextureRect(IntRect(32, 0, 32, 32));
-//			}
-//			s_map.setPosition(j * 32, i * 32);
-//			s_window.draw(s_map);
-//			s_window.display();
-//		}
-//		
-//	}
-//}
 

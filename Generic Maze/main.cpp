@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+п»ї#include <SFML/Graphics.hpp>
 #include"GameMenu.h"
 #include "Generic game.h"
 #include<SFML/Audio.hpp>
@@ -13,30 +13,30 @@ struct TextFormat
     Color border_color = Color::Black;
 };
 
-// функция настройки текста
+// С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё С‚РµРєСЃС‚Р°
 void InitText(Text& mtext, float xpos, float ypos, const String& str, TextFormat Ftext);
 
-// Игровой процесс
-void GamеStart();
+// РРіСЂРѕРІРѕР№ РїСЂРѕС†РµСЃСЃ
+void GamРµStart();
 
-// Описание игры
+// РћРїРёСЃР°РЅРёРµ РёРіСЂС‹
 void About_Game();
 
 
 
 int main()
 {
-    // Создаём окно windows
+    // РЎРѕР·РґР°С‘Рј РѕРєРЅРѕ windows
     RenderWindow window(VideoMode::getDesktopMode(), L"Menu", Style::Default);
 
 
-    //window.setMouseCursorVisible(false); //отключаем видимость курсора
+    //window.setMouseCursorVisible(false); //РѕС‚РєР»СЋС‡Р°РµРј РІРёРґРёРјРѕСЃС‚СЊ РєСѓСЂСЃРѕСЂР°
 
-    // Размер экрана
+    // Р Р°Р·РјРµСЂ СЌРєСЂР°РЅР°
     auto width = static_cast<float>(VideoMode::getDesktopMode().width);
     auto height = static_cast<float>(VideoMode::getDesktopMode().height);
 
-    //Заставка загрузки
+    //Р—Р°СЃС‚Р°РІРєР° Р·Р°РіСЂСѓР·РєРё
     Texture texthome;
     texthome.loadFromFile("Image/z1.png");
     RectangleShape homecls(Vector2f(640, 280));
@@ -45,7 +45,7 @@ int main()
     window.draw(homecls);
     window.display();
 
-    // Звуковые эффекты
+    // Р—РІСѓРєРѕРІС‹Рµ СЌС„С„РµРєС‚С‹
     SoundBuffer buffer;
     SoundBuffer buf_return;
 
@@ -57,15 +57,15 @@ int main()
     sound_return.setBuffer(buf_return);
 
 
-    // Название пунктов меню
-    std::vector<String> name_menu{ L"Старт",L"Об игре", L"Выход" };
-    // Объект меню
+    // РќР°Р·РІР°РЅРёРµ РїСѓРЅРєС‚РѕРІ РјРµРЅСЋ
+    std::vector<String> name_menu{ L"РЎС‚Р°СЂС‚",L"РћР± РёРіСЂРµ", L"Р’С‹С…РѕРґ" };
+    // РћР±СЉРµРєС‚ РјРµРЅСЋ
     game::GameMenu mymenu(window, width / 2, 270, 85, 100, name_menu);
-    // Установка цвета отображения меню
+    // РЈСЃС‚Р°РЅРѕРІРєР° С†РІРµС‚Р° РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РјРµРЅСЋ
     mymenu.setColorTextMenu(Color(237, 147, 0), Color::Blue, Color::Black);
     mymenu.AlignMenu(2);
 
-    // Плавное появление из черного
+    // РџР»Р°РІРЅРѕРµ РїРѕСЏРІР»РµРЅРёРµ РёР· С‡РµСЂРЅРѕРіРѕ
     Texture texture_back;
     if (!texture_back.loadFromFile("image/t.jpg")) return 51;
     Sprite backgroundBlack;
@@ -75,25 +75,25 @@ int main()
     float alpha = 255;
 
 
-    // Устанавливаем фон экрана меню
+    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С„РѕРЅ СЌРєСЂР°РЅР° РјРµРЅСЋ
     RectangleShape background(Vector2f(width, height));
 
     Texture texture_window;
     if (!texture_window.loadFromFile("image/fmenu.jpg")) return 4;
     background.setTexture(&texture_window);
 
-    // Шрифт для названия экрана
+    // РЁСЂРёС„С‚ РґР»СЏ РЅР°Р·РІР°РЅРёСЏ СЌРєСЂР°РЅР°
     Font font;
     //if (!font.loadFromFile("font/stil.otf")) return 5;
     font.loadFromFile("font/troika.otf");
-    // Текст с названием экрана
+    // РўРµРєСЃС‚ СЃ РЅР°Р·РІР°РЅРёРµРј СЌРєСЂР°РЅР°
     Text Titul;
     Titul.setFont(font);
     TextFormat Ftext;
     Ftext.size_font = 100;
     Ftext.menu_text_color = Color(237, 147, 0);
     Ftext.bord = 3;
-    InitText(Titul, 455, 50, L"Лабиринт", Ftext);
+    InitText(Titul, 455, 50, L"Р›Р°Р±РёСЂРёРЅС‚", Ftext);
 
     Clock clock;
     while (window.isOpen())
@@ -104,16 +104,16 @@ int main()
 
             if (event.type == Event::KeyReleased)
             {
-                // События выбра пунктов меню
-                if (event.key.code == Keyboard::Up) { sound.play(); mymenu.MoveUp(); }       // вверх
-                if (event.key.code == Keyboard::Down) { sound.play(); mymenu.MoveDown(); }  // вниз
-                if (event.key.code == Keyboard::Return)                                     // ввод
+                // РЎРѕР±С‹С‚РёСЏ РІС‹Р±СЂР° РїСѓРЅРєС‚РѕРІ РјРµРЅСЋ
+                if (event.key.code == Keyboard::Up) { sound.play(); mymenu.MoveUp(); }       // РІРІРµСЂС…
+                if (event.key.code == Keyboard::Down) { sound.play(); mymenu.MoveDown(); }  // РІРЅРёР·
+                if (event.key.code == Keyboard::Return)                                     // РІРІРѕРґ
                 {
                     sound_return.play();
-                    // Переходим на выбранный пункт меню
+                    // РџРµСЂРµС…РѕРґРёРј РЅР° РІС‹Р±СЂР°РЅРЅС‹Р№ РїСѓРЅРєС‚ РјРµРЅСЋ
                     switch (mymenu.getSelectedMenuNumber())
                     {
-                    case 0:GamеStart();  break;
+                    case 0:GamРµStart();  break;
                     case 1:About_Game();  break;
                     case 2:window.close(); break;
                     default:break;
@@ -124,14 +124,14 @@ int main()
                 window.close();
         }
 
-        // Плавное осветление экрана меню
+        // РџР»Р°РІРЅРѕРµ РѕСЃРІРµС‚Р»РµРЅРёРµ СЌРєСЂР°РЅР° РјРµРЅСЋ
         if (alpha > 0)
         {
             alpha -= 0.5f;
             backgroundBlack.setColor(Color(255, 255, 255, static_cast<unsigned char>(alpha)));
         }
 
-        // Область отрисовки объектов      
+        // РћР±Р»Р°СЃС‚СЊ РѕС‚СЂРёСЃРѕРІРєРё РѕР±СЉРµРєС‚РѕРІ      
         window.clear();
         window.draw(background);
         window.draw(Titul);
@@ -142,7 +142,7 @@ int main()
     return 0;
 }
 
-// функция настройки текста
+// С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё С‚РµРєСЃС‚Р°
 void InitText(Text& mtext, float xpos, float ypos, const String& str, TextFormat Ftext)
 {
     mtext.setCharacterSize(Ftext.size_font);
@@ -154,8 +154,8 @@ void InitText(Text& mtext, float xpos, float ypos, const String& str, TextFormat
 
 }
 
-// Игровой процесс
-void GamеStart()
+// РРіСЂРѕРІРѕР№ РїСЂРѕС†РµСЃСЃ
+void GamРµStart()
 {
     Generic level1;
     //Generic* p = nullptr;
@@ -178,27 +178,31 @@ void GamеStart()
     }*/
 }
 
-// Описание игры
+// РћРїРёСЃР°РЅРёРµ РёРіСЂС‹
 void About_Game()
 {
-    RenderWindow About(VideoMode::getDesktopMode(), L"О игре", Style::Default);
+    RenderWindow About(VideoMode::getDesktopMode(), L"Рћ РёРіСЂРµ", Style::Default);
 
     RectangleShape background_ab(Vector2f(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height));
     Texture texture_ab;
     if (!texture_ab.loadFromFile("image/fmenu.jpg")) exit(3);
     background_ab.setTexture(&texture_ab);
 
-    // Шрифт для названия экрана
+    // РЁСЂРёС„С‚ РґР»СЏ РЅР°Р·РІР°РЅРёСЏ СЌРєСЂР°РЅР°
     Font font;
     if (!font.loadFromFile("font/troika.otf")) exit(6);
-    // Текст с названием экрана
+    // РўРµРєСЃС‚ СЃ РЅР°Р·РІР°РЅРёРµРј СЌРєСЂР°РЅР°
     Text Titul;
     Titul.setFont(font);
     TextFormat Ftext;
     Ftext.size_font = 30;
     Ftext.menu_text_color = Color(237, 147, 0);
     Ftext.bord = 3;
-    InitText(Titul, 60, 30, L"Персонаж может появляться в центре лабиринта.\nВыход из лабиринта в виде портала (их может быть несколько)\nИспользуются мортиры обстреливающие героя, которые\nподталкивают его к более быстрому прохождению уровня.", Ftext);
+    InitText(Titul, 60, 30, L"РџРµСЂСЃРѕРЅР°Р¶ РїРѕСЏРІР»СЏРµС‚СЃСЏ РІ СЂР°Р№РѕРЅРµ С†РµРЅС‚СЂР° Р»Р°Р±РёСЂРёРЅС‚Р°.\
+        \nР’С‹С…РѕРґ РёР· Р»Р°Р±РёСЂРёРЅС‚Р° РІ РІРёРґРµ РїРѕСЂС‚Р°Р»Р°, РєРѕС‚РѕСЂС‹Р№ СЂР°СЃРїРѕР»РѕР¶РµРЅ РІ РІРµСЂС…РЅРµРј Р»РµРІРѕРј СѓРіР»Сѓ.\
+        \n РџСЂРё РёСЃС‚РµС‡РµРЅРёРµ РІСЂРµРјРµРЅРё РёРіСЂРѕРє РїСЂРѕРёРіСЂС‹РІР°РµС‚.\
+        \n РљР»Р°РІРёС€Рё, РєРѕС‚РѕСЂС‹Рµ РёСЃРїРѕР»СЊР·СѓСЋС‚СЃСЏ РґР»СЏ РїРµСЂРµРґРІРёР¶РµРЅРёСЏ РїРµСЂСЃРѕРЅР°Р¶Р°:\
+        \n (W, A, S, D) РёР»Рё РєР»Р°РІРёС€Рё СЃС‚СЂРµР»РѕРє", Ftext);
 
     while (About.isOpen())
     {

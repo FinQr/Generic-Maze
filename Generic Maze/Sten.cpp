@@ -4,20 +4,20 @@ Sten::Sten()
     m_Speed = 80;
     
     // —в€зываем текстуру и спрайт
-    Image image;
+    sf::Image image;
     image.loadFromFile("sten.png");
-    image.createMaskFromColor(Color::White);
+    image.createMaskFromColor(sf::Color::White);
     m_Texture.loadFromImage(image);
     m_Texture.setSmooth(true);
     m_Sprite.setTexture(m_Texture);
-    m_Sprite.setTextureRect(IntRect(0, 260, 160, 100));
+    m_Sprite.setTextureRect(sf::IntRect(0, 260, 160, 100));
     m_Sprite.setScale(0.12f, 0.12f);
     // ”станавливаем начальную позицию в пиксел€х
     m_Position.x = 230;
     m_Position.y = 220;
 }
 
-Sprite Sten::getSprite()const
+sf::Sprite Sten::getSprite()const
 {
     return m_Sprite;
 }
@@ -25,25 +25,25 @@ Sprite Sten::getSprite()const
 void Sten::moveLeft()
 {
     m_LeftPressed = true;
-    m_Sprite.setTextureRect(IntRect(0, 140, 160, 100));
+    m_Sprite.setTextureRect(sf::IntRect(0, 140, 160, 100));
 }
 
 void Sten::moveRight()
 {
     m_RightPressed = true;
-    m_Sprite.setTextureRect(IntRect(0, 260, 160, 100));
+    m_Sprite.setTextureRect(sf::IntRect(0, 260, 160, 100));
 }
 
 void Sten::moveTop()
 {
     m_TopPressed = true;
-    m_Sprite.setTextureRect(IntRect(0, 360, 150, 130));
+    m_Sprite.setTextureRect(sf::IntRect(0, 360, 150, 130));
 }
 
 void Sten::moveDown()
 {
     m_DownPressed = true;
-    m_Sprite.setTextureRect(IntRect(0, 0, 150, 130));
+    m_Sprite.setTextureRect(sf::IntRect(0, 0, 150, 130));
 }
 
 void Sten::stopLeft()
@@ -95,9 +95,4 @@ void Sten::update(float elapsedTime)
     }
     // “еперь сдвигаем спрайт на новую позицию
     m_Sprite.setPosition(m_Position);
-}
-
-void Sten::setPositionCenterHero(sf::Vector2f m_Position)
-{
-    view.setCenter(m_Position);
 }

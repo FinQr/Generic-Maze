@@ -17,7 +17,7 @@ public:
 	void setHeight(int Height) { this->Height_map = Height; };
 	void setWidth(int Width) { this->Width_map = Width; };
 
-	int Randint(int min, int max);
+	
 	sf::Sprite GetSpriteLab() const{ return sprite_Labirint; };
 	sf::Sprite getSpriteWall()const { return Wall; };
 
@@ -34,6 +34,8 @@ private:
 
 	std::vector <sf::RectangleShape> Wallab;
 	std::vector <sf::RectangleShape> Tropalab;
+
+	int Randint(int min, int max);
 
 	int Height_map;
 	int Width_map;
