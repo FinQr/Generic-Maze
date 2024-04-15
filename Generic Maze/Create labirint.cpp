@@ -168,39 +168,6 @@ void Labirint::createTeilMap()
             chek.push_back(tochka);
         }
     }
-    
-    //for (int m = 0; m < 4;++m) {
-    //    std::vector <Point> dead_ends;
-    //    for (int i = 0; i < Height_map; ++i) {
-    //        for (int j = 0; j < Width_map; ++j) {
-    //            /*if (TeileMap[j][i] == 1) m_Sten.setPositon(j, i);*/
-    //            if (TeileMap[j][i] == 1) {
-    //                int neighbors = 0;
-    //                if (i - 1 >= 0 && TeileMap[j][i - 1] == 1)         neighbors++;
-    //                if (i + 1 < Height_map && TeileMap[j][i + 1] == 1) neighbors++;
-    //                if (j - 1 >= 0 && TeileMap[j - 1][i] == 1)         neighbors++;
-    //                if (j + 1 < Width_map && TeileMap[j + 1][i] == 1)  neighbors++;
-    //                if (neighbors <= 0) {
-    //                    tochka.arr[0] = j; tochka.arr[1] = i;
-    //                    dead_ends.push_back(tochka);
-    //                }
-    //            }
-    //            if (TeileMap[j][i] == 0) {
-    //                int neighbors = 0;
-    //                if (i - 1 >= 0 && TeileMap[j][i - 1] == 1)         neighbors++;
-    //                if (i + 1 < Height_map && TeileMap[j][i + 1] == 1) neighbors++;
-    //                if (j - 1 >= 0 && TeileMap[j - 1][i] == 1)         neighbors++;
-    //                if (j + 1 < Width_map && TeileMap[j + 1][i] == 1)  neighbors++;
-    //                if (neighbors == 3) {
-    //                    TeileMap[j][i] = 1;
-    //                }
-    //            }
-    //        }
-    //    }
-    //    /*for (int g = 0; g < dead_ends.size(); g++) {
-    //        TeileMap[dead_ends[g].arr[0]][dead_ends[g].arr[1]] = 0;
-    //    }*/
-    //}
 }
 
 void Labirint::setUpHero(Sten& cp_Sten)
@@ -267,38 +234,5 @@ void Labirint::Colision(Sten& cp_Sten)
         }
     }
 }
-
-//void Labirint::Colision(Sten& cp_Sten)
-//{
-//    sf::FloatRect box = cp_Sten.getSprite().getGlobalBounds();
-//    int x = cp_Sten.getPosx();
-//    int y = cp_Sten.getPosy();
-//    int col = Wallab.size();
-//    for (int i = 0; i < col; i++) {
-//        if (box.intersects(Wallab[i].getGlobalBounds())) {
-//            if (cp_Sten.getDown() && Wallab[i].getPosition().y > y)//если мы шли вниз,
-//            {
-//                cp_Sten.stopDown();
-//                //cp_Sten.setPositon(x, y - 1);//то стопорим координату игрек персонажа. сначала получаем координату нашего квадратика на карте(стены) и затем вычитаем из высоты спрайта персонажа.
-//            }
-//            if (cp_Sten.getTop() && Wallab[i].getPosition().y < y)
-//            {
-//                cp_Sten.stopTop();
-//                //cp_Sten.setPositon(x, y + 2);//аналогично с ходьбой вверх. dy<0, значит мы идем вверх (вспоминаем координаты паинта)
-//            }
-//            if (cp_Sten.getRight() && Wallab[i].getPosition().x > x)
-//            {
-//                cp_Sten.stopRight();
-//                //cp_Sten.setPositon(x - 1, y);//если идем вправо, то координата Х равна стена (символ 0) минус ширина персонажа
-//            }
-//            if (cp_Sten.getLeft() && Wallab[i].getPosition().x < x)
-//            {
-//                cp_Sten.stopLeft();
-//                //cp_Sten.setPositon(x + 2, y);//аналогично идем влево
-//            }
-//            //break;
-//        }
-//    }
-//}
 
 
